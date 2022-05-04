@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:newbook_app/screens/bottomNav.dart';
 import 'package:newbook_app/screens/firebaseAuthPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,102 +18,89 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginDemo(),
+      home: firebaseAuthPage(),
     );
   }
 }
 
-class LoginDemo extends StatefulWidget {
+class firebaseAuthPage extends StatefulWidget {
   @override
-  _LoginDemoState createState() => _LoginDemoState();
+  _firebaseAuthPageState createState() => _firebaseAuthPageState();
 }
 
-class _LoginDemoState extends State<LoginDemo> {
+class _firebaseAuthPageState extends State<firebaseAuthPage> {
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Login Page"),
+        title: Text("New Book Login Page"),
       ),
-      body: SingleChildScrollView(
+      body: Center(
         child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Center(
-                child: Container(
-                    width: 200,
-                    height: 150,
-                ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: usernameController,
+              obscureText: false,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Username',
               ),
             ),
-            Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                    hintText: 'Enter valid email id as abc@gmail.com'),
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Password',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 15.0, right: 15.0, top: 15, bottom: 0),
-              //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter secure password'),
-              ),
-            ),
-            FlatButton(
-              onPressed: (){
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
-              },
-              child: Text(
-                'Forgot Password',
-                style: TextStyle(color: Colors.blue, fontSize: 15),
-              ),
-            ),
-            Container(
-              height: 50,
-              width: 250,
-              decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
+            ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => bottomNav()));
+                  print(FirebaseAuth.instance.currentUser!.uid);
+                  FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: usernameController.text, password: passwordController.text)
+                      .then((value) async {
+                    print("Successfully login!");
+                    print(value.user?.uid); // get the UID
+                  }).catchError((error) {
+                    print("Failed to login.");
+                    print(error.toString());
+                  });
                 },
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white, fontSize: 25),
-                ),
-              ),
+                child: Text("Login")
             ),
-            SizedBox(
-              height: 130,
-            ),
-            Row(
-              children: <Widget>[
-                const Text('Does not have account?'),
-                TextButton(
-                  child: const Text(
-                    'Sign in',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                      Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => firebaseAuthPage()));
-                  },
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => bottomNav()));
+                  // sign up a user and save to Firebase Auth service
+                  FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email: usernameController.text, password: passwordController.text)
+                          .then((value) {
+                    print("Successfully sign up the user!");
+                    print(value.user!.uid);
+                  }).catchError((error) {
+                    print("Failed to sign up the user");
+                    print(error.toString());
+                  });
+
+                  // ucFuture.then((value) {
+                  //   print("Successfully sign up the user!");
+                  // });
+                  //
+                  // ucFuture.catchError((error) {
+                  //   print("Failed to sign up the user");
+                  //   print(error.toString());
+                  // });
+
+                },
+                child: Text("Signup")
+
             ),
           ],
         ),

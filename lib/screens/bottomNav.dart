@@ -21,7 +21,6 @@ class _bottomNavState extends State<bottomNav> {
       'Organized: Organizing your books based on tropes and others',
     ),
   ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
