@@ -20,9 +20,6 @@ class _bottomNavState extends State<bottomNav> {
     Text(
       'Organized: Organizing your books based on tropes and others',
     ),
-    Text(
-      'Create an account or sign in to your account',
-    ),
   ];
 
   void _onItemTapped(int index) {
@@ -55,7 +52,8 @@ class _bottomNavState extends State<bottomNav> {
         backgroundColor: Colors.blue[500],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>
+        [
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
             label: 'To read',
@@ -71,11 +69,6 @@ class _bottomNavState extends State<bottomNav> {
             label: 'Organize',
             backgroundColor: Colors.purple,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_add),
-            label: 'Create an account and sign up account',
-            backgroundColor: Colors.yellow,
-          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue[800],
@@ -86,7 +79,9 @@ class _bottomNavState extends State<bottomNav> {
 }
 
 class SecondPage extends StatelessWidget {
-  const SecondPage({Key? key}) : super(key: key);
+   SecondPage({Key? key}) : super(key: key);
+
+final title = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +104,7 @@ class SecondPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: TextField(
+            controller: title,
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
               labelText: 'Enter the name of the author',
@@ -182,6 +178,10 @@ class SecondPage extends StatelessWidget {
             ),
           ),
         ),
+        RaisedButton(onPressed: null,
+        child: Text('Submit'),
+        ),
+        Text('saved')
     ],
       ),
       ),

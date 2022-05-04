@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:newbook_app/screens/bottomNav.dart';
+import 'package:newbook_app/screens/firebaseAuthPage.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -8,64 +9,114 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  static const String _title = 'NewBook';
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: _title,
-      home: const MyStatefulWidget(title: 'Home Page'),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LoginDemo(),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class LoginDemo extends StatefulWidget {
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  _LoginDemoState createState() => _LoginDemoState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-
+class _LoginDemoState extends State<LoginDemo> {
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Login Page"),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
+            Padding(
+              padding: const EdgeInsets.only(top: 60.0),
+              child: Center(
+                child: Container(
+                    width: 200,
+                    height: 150,
+                ),
+              ),
+            ),
+            Padding(
+              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Email',
+                    hintText: 'Enter valid email id as abc@gmail.com'),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+              //padding: EdgeInsets.symmetric(horizontal: 15),
+              child: TextField(
+
+                obscureText: true,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                    hintText: 'Enter secure password'),
+              ),
+            ),
+            FlatButton(
+              onPressed: (){
+                //TODO FORGOT PASSWORD SCREEN GOES HERE
+              },
+              child: Text(
+                'Forgot Password',
+                style: TextStyle(color: Colors.blue, fontSize: 15),
+              ),
+            ),
+            Container(
+              height: 50,
+              width: 250,
+              decoration: BoxDecoration(
+                  color: Colors.blue, borderRadius: BorderRadius.circular(20)),
+              child: FlatButton(
                 onPressed: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => bottomNav()),
-                  );
+                      context, MaterialPageRoute(builder: (_) => bottomNav()));
                 },
-                child: Text("Go In")
-            ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DemoFirebaseAuthPage()),
-                    );
-                  },
-                  child: Text("Firebase Auth"),
+                child: Text(
+                  'Login',
+                  style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 130,
+            ),
+            Row(
+              children: <Widget>[
+                const Text('Does not have account?'),
+                TextButton(
+                  child: const Text(
+                    'Sign in',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                      Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => firebaseAuthPage()));
+                  },
+                )
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
           ],
         ),
       ),
     );
-    }
+  }
 }
