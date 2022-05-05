@@ -10,15 +10,15 @@ class _bottomNavState extends State<bottomNav> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'To Read Page: Books added to To Read list will show up here',
+  static List<Widget> _widgetOptions = <Widget>[
+    Container(
+      child: const Center(child: Text( 'To Read Page: Books added to To Read list will show up here')),
     ),
-    Text(
-      'Finished: Books that are finished will show up here',
+    Container(
+      child: const Center(child: Text('Finished: Books that are finished will show up here')),
     ),
-    Text(
-      'Organized: Organizing your books based on tropes and others',
+    Container(
+      child: const Center(child: Text( 'Organized: Organizing your books based on tropes and others')),
     ),
   ];
   void _onItemTapped(int index) {
