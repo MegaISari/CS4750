@@ -39,10 +39,13 @@ class _firebaseAuthPageState extends State<firebaseAuthPage> {
       appBar: AppBar(
         title: Text("New Book Login Page"),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+           Image.asset('assets/newbook.png',
+            height: 200,  
+            width: 400  ),
             TextField(
               controller: usernameController,
               obscureText: false,
@@ -61,7 +64,8 @@ class _firebaseAuthPageState extends State<firebaseAuthPage> {
             ),
             ElevatedButton(
                 onPressed: () {
-                  print(FirebaseAuth.instance.currentUser!.uid);
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => bottomNav()));
                   FirebaseAuth.instance.signInWithEmailAndPassword(
                       email: usernameController.text, password: passwordController.text)
                       .then((value) async {

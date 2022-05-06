@@ -180,7 +180,6 @@ final title = new TextEditingController();
         RaisedButton(onPressed: null,
         child: Text('Submit'),
         ),
-        Text('saved')
     ],
       ),
       ),
