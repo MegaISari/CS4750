@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:newbook_app/screens/bottomNav.dart';
-import 'package:newbook_app/screens/firebaseAuthPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:newbook_app/screens/bottomNavigation.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'package:newbook_app/provider/todos.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,13 +17,14 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => TodosProvider(),
+        child: MaterialApp(
       debugShowCheckedModeBanner: false,
       home: firebaseAuthPage(),
-    );
+    ));
   }
-}
+
 
 class firebaseAuthPage extends StatefulWidget {
   @override
@@ -65,7 +68,7 @@ class _firebaseAuthPageState extends State<firebaseAuthPage> {
             ElevatedButton(
                 onPressed: () {
                     Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => bottomNav()));
+                      MaterialPageRoute(builder: (context) => bottomNavigation()));
                   FirebaseAuth.instance.signInWithEmailAndPassword(
                       email: usernameController.text, password: passwordController.text)
                       .then((value) async {
@@ -81,7 +84,7 @@ class _firebaseAuthPageState extends State<firebaseAuthPage> {
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => bottomNav()));
+                      MaterialPageRoute(builder: (context) => bottomNavigation()));
                   // sign up a user and save to Firebase Auth service
                   FirebaseAuth.instance.createUserWithEmailAndPassword(
                       email: usernameController.text, password: passwordController.text)

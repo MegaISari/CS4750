@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sqflite: ^2.0.2+1
+  path_provider: ^2.0.9
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -37,6 +39,12 @@ dependencies:
   firebase_core: ^1.12.0
   firebase_auth: ^3.3.8
 
+  # state management
+  provider: ^4.3.2+2
+
+  # slidable
+  flutter_slidable: ^0.5.7
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -69,6 +77,11 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
+fonts:
+    - family: Raleway
+      fonts:
+        - asset: assets/fonts/Raleway-SemiBold.ttf
+        
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
