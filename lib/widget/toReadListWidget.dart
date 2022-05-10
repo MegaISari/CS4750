@@ -14,7 +14,7 @@ class toReadListWidget extends StatelessWidget {
         ? Center(
             child: Text(
               'To Read Page: Books added to To Read list will show up here',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 12),
             ),
           )
         : ListView.separated(
