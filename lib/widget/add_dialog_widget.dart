@@ -52,7 +52,6 @@ class _AddTodoDialogWidgetState extends State<AddTodoDialogWidget> {
         id: DateTime.now().toString(),
         title: title,
         description: description,
-        createdTime: DateTime.now(),
       );
 
       final provider = Provider.of<TodosProvider>(context, listen: false);

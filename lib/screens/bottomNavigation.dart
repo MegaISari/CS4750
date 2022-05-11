@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:newbook_app/widget/add_dialog_widget.dart';
 import 'package:newbook_app/widget/toReadListWidget.dart';
 import 'package:newbook_app/widget/completed_list_widget.dart';
+import 'package:provider/provider.dart';
+
+import '../api/firebase_api.dart';
+import '../model/todo.dart';
+import 'package:newbook_app/provider/todos.dart';
 
 class bottomNavigation extends StatefulWidget {
 
@@ -49,7 +54,26 @@ class _bottomNavigationState extends State<bottomNavigation> {
           ),
         ],
       ),
-      body: tabs[selectedIndex],
+       body: StreamBuilder<List<Todo>>(
+        stream: FirebaseApi.readTodos(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+            default:
+              if (snapshot.hasError) {
+                return buildText('Something Went Wrong Try later');
+              } else {
+                final todos = snapshot.data;
+
+                final provider = Provider.of<TodosProvider>(context);
+                provider.setTodos(todos!);
+
+                return tabs[selectedIndex];
+              }
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -65,6 +89,13 @@ class _bottomNavigationState extends State<bottomNavigation> {
     );
   }
 }
+
+Widget buildText(String text) => Center(
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 24, color: Colors.white),
+      ),
+    );
 
 class SecondPage extends StatelessWidget {
    SecondPage({Key? key}) : super(key: key);
