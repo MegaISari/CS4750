@@ -12,8 +12,8 @@ class CompletedListWidget extends StatelessWidget {
     return todos.isEmpty
         ? Center(
             child: Text(
-              'No completed lists of books.',
-              style: TextStyle(fontSize: 20),
+              'Finished: Books that are finished will show up here',
+              style: TextStyle(fontSize: 12),
             ),
           )
         : ListView.separated(
