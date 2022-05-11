@@ -22,7 +22,6 @@ class _bottomNavigationState extends State<bottomNavigation> {
     final tabs = [
       toReadListWidget(),
       CompletedListWidget(),
-      Container(),
     ];
 
     return Scaffold(
@@ -47,10 +46,6 @@ class _bottomNavigationState extends State<bottomNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.task),
             label: 'Finished',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check_box),
-            label: 'Organize',
           ),
         ],
       ),
