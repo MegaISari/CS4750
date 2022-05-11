@@ -167,7 +167,7 @@ final title = new TextEditingController();
           ),
         ),
         RaisedButton(onPressed: null,
-        child: Text('Submit'),
+        child: Text('submit'),
         ),
     ],
       ),

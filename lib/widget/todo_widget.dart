@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart'; 
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:newbook_app/screens/bottomNav.dart'; 
 import 'package:provider/provider.dart';
 import 'package:newbook_app/model/todo.dart';
 import 'package:newbook_app/provider/todos.dart';
@@ -16,30 +17,48 @@ class TodoWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Slidable(
-          actionPane: SlidableDrawerActionPane(),
-          key: Key(todo.id),
-          actions: [
-            IconSlideAction(
-              color: Colors.green,
-              onTap: () => editTodo(context, todo),
-              caption: 'Edit',
-              icon: Icons.edit,
-            )
-          ],
-          secondaryActions: [
-            IconSlideAction(
-              color: Colors.red,
-              caption: 'Delete',
-              onTap: () => deleteTodo(context, todo),
-              icon: Icons.delete,
-            )
-          ],
+   Widget build(BuildContext context) {
+          return Slidable(
+            key: const ValueKey(0),
+            startActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (context) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Delete book'),
+                      ),
+                    );
+                  },
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  icon: Icons.delete,
+                  label: 'Delete',
+                ),
+              ],
+            ),
+            endActionPane: ActionPane(
+              motion: ScrollMotion(),
+              children: [
+                SlidableAction(
+                  flex: 2,
+                  onPressed: (BuildContext context) {
+                    Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SecondPage()),
+            );
+          },
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  icon: Icons.edit,
+                  label: 'Edit',
+                ),
+              ],
+            ),
           child: buildTodo(context),
-        ),
-      );
+            );
+        }
 
   Widget buildTodo(BuildContext context) => GestureDetector(
         onTap: () => editTodo(context, todo),
@@ -96,7 +115,7 @@ class TodoWidget extends StatelessWidget {
     final provider = Provider.of<TodosProvider>(context, listen: false);
     provider.removeTodo(todo);
 
-    Utils.showSnackBar(context, 'Deleted the task');
+    Utils.showSnackBar(context, 'Deleted the book');
   }
 
   void editTodo(BuildContext context, Todo todo) => Navigator.of(context).push(
@@ -104,4 +123,4 @@ class TodoWidget extends StatelessWidget {
           builder: (context) => EditTodoPage(todo: todo),
         ),
       );
-}
+  }
