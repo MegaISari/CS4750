@@ -1,82 +1,209 @@
 import 'package:flutter/material.dart';
+import 'package:validators/validators.dart' as validator;
+import 'package:newbook_app/model/model.dart';
+import 'package:newbook_app/model/result.dart';
 
-class bottomNav extends StatefulWidget {
-
+class TestForm extends StatefulWidget {
   @override
-  _bottomNavState createState() => _bottomNavState();
+  _TestFormState createState() => _TestFormState();
 }
-
-class _bottomNavState extends State<bottomNav> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
-    Container(
-      child: const Center(child: Text( 'To Read Page: Books added to To Read list will show up here')),
-    ),
-    Container(
-      child: const Center(child: Text('Finished: Books that are finished will show up here')),
-    ),
-    Container(
-      child: const Center(child: Text( 'Organized: Organizing your books based on tropes and others')),
-    ),
-  ];
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+class _TestFormState extends State<TestForm> {
+  
+  final _formKey = GlobalKey<FormState>();
+  Model model = Model(author: '', finishdate: '', lists: '', review: '', star: '', startdate: '', summary: '', title: '', tropes: '', id: '');
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(  title: Text('New Book'),
-          centerTitle: true,
-          backgroundColor: Colors.pink,
-      ),
-      body: Center(
-      child: Container(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: (){
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SecondPage(),
-              )
-          );
+    final halfMediaWidth = MediaQuery.of(context).size.width / 2.0;
+
+  return Scaffold(
+    appBar: AppBar( title: Text('Your Book'),), 
+   body: SingleChildScrollView(
+     child: Form(
+     key: _formKey,
+     child: Column(
+       children: <Widget>[
+         Container(
+           alignment: Alignment.topCenter,
+           child: Row(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: <Widget>[
+               Container(
+                 alignment: Alignment.topCenter,
+                 width: halfMediaWidth,
+                 child: MyTextFormField(
+                   hintText: 'Enter the title of the book',
+                   validator: (String value) {
+                     if (value.isEmpty) {
+                       return 'Enter the title of the book';
+                     }
+                     return null;
+                   },
+                   onSaved: (String value) {
+                     model.title = value;
+                   },
+                 ),
+               ),
+               Container(
+                 alignment: Alignment.topCenter,
+                 width: halfMediaWidth,
+                 child: MyTextFormField(
+                   hintText: 'Enter the name of the author(s)',
+                   validator: (String value) {
+                     if (value.isEmpty) {
+                       return 'Enter the name of the author(s)';
+                     }
+                     return null;
+                   },
+                   onSaved: (String value) {
+                     model.author = value;
+                   },
+                 ),
+               )
+             ],
+           ),
+         ),
+         MyTextFormField(
+           hintText: 'Enter the start date',
+           validator: (String value) {
+             if (value.isEmpty) {
+               return 'Enter the start date';
+             }
+             return null;
+           },
+           onSaved: (String value) {
+             model.startdate = value;
+           },
+         ),
+        MyTextFormField(
+           hintText: 'Enter the finish date',
+           validator: (String value) {
+             if (value.isEmpty) {
+               return 'Enter the finish date';
+             }
+             return null;
+           },
+           onSaved: (String value) {
+             model.finishdate = value;
+           },
+         ),
+         MyTextFormField(
+           hintText: 'Enter the summary',
+           validator: (String value) {
+             if (value.isEmpty) {
+               return 'Enter the summary';
+             }
+             return null;
+           },
+           onSaved: (String value) {
+             model.summary = value;
+           },
+         ),
+          MyTextFormField(
+           hintText: 'Enter the review',
+           validator: (String value) {
+             if (value.isEmpty) {
+               return 'Enter the review';
+             }
+             return null;
+           },
+           onSaved: (String value) {
+             model.review = value;
+           },
+         ),
+          MyTextFormField(
+           hintText: 'Enter the star',
+           validator: (String value) {
+             if (value.isEmpty) {
+               return 'Enter the star';
+             }
+             return null;
+           },
+           onSaved: (String value) {
+             model.star = value;
+           },
+         ),
+          MyTextFormField(
+           hintText: 'Enter the tropes',
+           validator: (String value) {
+             if (value.isEmpty) {
+               return 'Enter the tropes';
+             }
+             return null;
+           },
+           onSaved: (String value) {
+             model.summary = value;
+           },
+         ),
+          MyTextFormField(
+           hintText: 'Enter the lists',
+           validator: (String value) {
+             if (value.isEmpty) {
+               return 'Enter the lists';
+             }
+             return null;
+           },
+           onSaved: (String value) {
+             model.lists = value;
+           },
+         ),
+         RaisedButton(
+           color: Colors.blueAccent,
+           onPressed: () {
+          if (_formKey.currentState!.validate()) {
+                 _formKey.currentState!.save();
+               Navigator.pop(context);
+               print('succesfully saved');
+          }
+           },
+           child: Text(
+             'Submit',
+             style: TextStyle(
+               color: Colors.white,
+             ),
+           ),
+         )
+       ],
+     ),
+     )
+   )
+   );
+  }
+}
+
+class MyTextFormField extends StatelessWidget {
+  final String hintText;
+  final Function validator;
+  final Function onSaved;
+
+  MyTextFormField({
+    required this.hintText,
+    required this.validator,
+    required this.onSaved,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          hintText: hintText,
+          contentPadding: EdgeInsets.all(15.0),
+          border: InputBorder.none,
+          filled: true,
+          fillColor: Colors.grey[200],
+        ),
+        onSaved: (val) {
+      print('saved');
         },
-        backgroundColor: Colors.blue[500],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>
-        [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'To read',
-            backgroundColor: Colors.red,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.task),
-            label: 'Finished',
-            backgroundColor: Colors.green,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.check_box),
-            label: 'Organize',
-            backgroundColor: Colors.purple,
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue[800],
-        onTap: _onItemTapped,
+         validator: (val) {
+      print('validating');
+    },
       ),
     );
   }
 }
-
 class SecondPage extends StatelessWidget {
    SecondPage({Key? key}) : super(key: key);
 

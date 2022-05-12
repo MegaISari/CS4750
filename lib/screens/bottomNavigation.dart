@@ -30,9 +30,9 @@ class _bottomNavigationState extends State<bottomNavigation> {
           backgroundColor: Colors.pink,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.white.withOpacity(0.7),
-        selectedItemColor: Colors.white,
+        backgroundColor:  Colors.white,
+        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.blue,
         currentIndex: selectedIndex,
         onTap: (index) => setState(() {
           selectedIndex = index; 
@@ -70,10 +70,8 @@ class _bottomNavigationState extends State<bottomNavigation> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-      ),
-      backgroundColor: Colors.pink,
+        shape: CircleBorder(),
+      backgroundColor: Colors.blue,
       onPressed: () => showDialog(
         context: context,
         builder: (context) => AddTodoDialogWidget(),
@@ -91,113 +89,3 @@ Widget buildText(String text) => Center(
         style: TextStyle(fontSize: 24, color: Colors.white),
       ),
     );
-
-class SecondPage extends StatelessWidget {
-   SecondPage({Key? key}) : super(key: key);
-
-final title = new TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Your Book'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-      children: <Widget>[
-          const Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: TextField(
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Enter the title of the book',
-        ),
-      ),
-    ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextField(
-            controller: title,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Enter the name of the author',
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextField(
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Enter your start date of reading the book',
-            ),
-          ),
-        ),
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      child: TextField(
-        decoration: const InputDecoration(
-          border: UnderlineInputBorder(),
-          labelText: 'Enter your finish date of reading the book',
-    ),
-    ),
-    ),
-    Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-    child: TextField(
-      keyboardType: TextInputType.multiline,
-      maxLines: null,
-    decoration: const InputDecoration(
-    border: UnderlineInputBorder(),
-    labelText: 'Write your summary after reading the book',
-    ),
-    ),
-    ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextField(
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Write your review after reading the book',
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextField(
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Enter your stars out of 5 after reading the book',
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextField(
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Enter the tropes included in the book',
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextField(
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Enter the name of the lists you wanted',
-            ),
-          ),
-        ),
-        RaisedButton(onPressed: null,
-        child: Text('submit'),
-        ),
-    ],
-      ),
-      ),
-    );
-  }
-}
