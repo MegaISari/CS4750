@@ -47,23 +47,33 @@ class _firebaseAuthPageState extends State<firebaseAuthPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
            Image.asset('assets/newbook.png',
-            height: 200,  
+            height: 250,  
             width: 400  ),
-            TextField(
+            Padding(
+              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: TextField(
               controller: usernameController,
               obscureText: false,
               decoration: InputDecoration(
+                
                 border: OutlineInputBorder(),
                 labelText: 'Username',
               ),
             ),
-            TextField(
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 15, bottom: 0),
+              //padding: EdgeInsets.symmetric(horizontal: 15),
+              child:TextField(
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Password',
               ),
+            ),
             ),
             ElevatedButton(
                 onPressed: () {
